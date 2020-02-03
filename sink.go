@@ -134,7 +134,9 @@ func newFileSink(u *url.URL) (Sink, error) {
 	case "stdout":
 		return nopCloserSink{os.Stdout}, nil
 	case "stderr":
-		return nopCloserSink{os.Stderr}, nil
+		s := nopCloserSink{os.Stderr}
+		fmt.Printf("[sink.go: newFileSink] %T: %+v\n", s, s)
+		return s, nil
 	}
 	return os.OpenFile(u.Path, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
 }

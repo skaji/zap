@@ -21,6 +21,7 @@
 package zapcore
 
 import (
+	"fmt"
 	"io"
 	"sync"
 
@@ -63,6 +64,7 @@ func Lock(ws WriteSyncer) WriteSyncer {
 
 func (s *lockedWriteSyncer) Write(bs []byte) (int, error) {
 	s.Lock()
+	fmt.Printf("[write_syncer.go: Write]  %T: %+v, with bs = %s", s.ws, s.ws, string(bs))
 	n, err := s.ws.Write(bs)
 	s.Unlock()
 	return n, err
